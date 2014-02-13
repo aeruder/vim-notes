@@ -49,10 +49,11 @@ command! -bar -bang -range TabNoteFromSelectedText call xolox#notes#from_selecti
 augroup PluginNotes
   autocmd!
   au SwapExists * call xolox#notes#swaphack()
-  au BufUnload * call xolox#notes#unload_from_cache()
-  au BufReadPost,BufWritePost * call xolox#notes#refresh_syntax()
-  au InsertEnter,InsertLeave * call xolox#notes#refresh_syntax()
-  au CursorHold,CursorHoldI * call xolox#notes#refresh_syntax()
+  au FileType notes call xolox#notes#refresh_syntax()
+  au FileType notes au CursorHold,CursorHoldI <buffer> call xolox#notes#refresh_syntax()
+  au FileType notes au InsertEnter,InsertLeave <buffer> call xolox#notes#refresh_syntax()
+  au FileType notes au BufReadPost,BufWritePost <buffer> call xolox#notes#refresh_syntax()
+  au FileType notes au BufUnload <buffer> call xolox#notes#unload_from_cache()
   " NB: "nested" is used here so that SwapExists automatic commands apply
   " to notes (which is IMHO better than always showing the E325 prompt).
   au BufReadCmd note:* nested call xolox#notes#shortcut()
